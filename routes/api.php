@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardAdminTeamController;
 use App\Http\Controllers\DashboardAdminUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ Route::prefix('/v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::resource('/user',DashboardAdminUserController::class);
+        Route::resource('/team',DashboardAdminTeamController::class);
 
     });
 
