@@ -9,7 +9,7 @@ class DashboardAdminUserController extends Controller
 {
     public function index()
     {
-        $users = User::get();
+        $users = User::where('role', 'member')->get();
 
         return response()->json([
             'status' => 'ok',
