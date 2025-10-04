@@ -18,17 +18,20 @@ Route::prefix('/v1')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resource('/user',DashboardAdminUserController::class);
-        Route::resource('/team',DashboardAdminTeamController::class);
+        Route::middleware('lead')->group(function () {
+            Route::resource('/user',DashboardAdminUserController::class);
+            Route::resource('/team',DashboardAdminTeamController::class);
+    
+            Route::post('/teams/{teamId}/users', [DashboardAdminTeamMemberController::class, 'addUserToTeam']);
+            Route::delete('/teams/{teamId}/users/{userId}', [DashboardAdminTeamMemberController::class, 'removeUserFromTeam']);
 
-        Route::post('/teams/{teamId}/users', [DashboardAdminTeamMemberController::class, 'addUserToTeam']);
-        Route::delete('/teams/{teamId}/users/{userId}', [DashboardAdminTeamMemberController::class, 'removeUserFromTeam']);
+            Route::post('/teams/{team_id}/posts', [TeamPostController::class, 'store']);
+            Route::put('/posts/{id}', [TeamPostController::class, 'update']);
+            Route::delete('/posts/{id}', [TeamPostController::class, 'destroy']);
+        });
 
         Route::get('/teams/{team_id}/posts', [TeamPostController::class, 'index']);
         Route::get('/posts/{id}', [TeamPostController::class, 'show']);
-        Route::post('/teams/{team_id}/posts', [TeamPostController::class, 'store']);
-        Route::put('/posts/{id}', [TeamPostController::class, 'update']);
-        Route::delete('/posts/{id}', [TeamPostController::class, 'destroy']);
     });
 
 });
