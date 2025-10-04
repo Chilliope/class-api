@@ -52,4 +52,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Team::class, 'team_user');
     }
 
+    public function teamPosts()
+    {
+        return $this->hasMany(TeamPost::class);
+    }
 }
